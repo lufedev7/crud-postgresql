@@ -19,11 +19,15 @@ export class AuthService {
     if (seachUser) {
       throw new BadRequestException('Email already exists');
     }
-    return await this.usersService.create({
+    await this.usersService.create({
       name,
       email,
       password: await bcrypt.hash(password, 10),
     });
+    return {
+      name,
+      email,
+    };
   }
   async login({ email, password }: LoginDto) {
     const user = await this.usersService.findByEmail(email);
@@ -34,8 +38,11 @@ export class AuthService {
     if (!isPasswordCorrect) {
       throw new UnauthorizedException('Invalid email or password');
     }
-    const payload = { email: user.email };
+    const payload = { email: user.email, role: user.role };
     const accessToken = this.jwtService.sign(payload);
     return { accessToken, email };
+  }
+  async profile({ email, role }: { email: string; role: string }) {
+    return await this.usersService.findByEmail(email);
   }
 }
