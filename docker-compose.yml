@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:15  # Cambia a la versión de PostgreSQL que prefieras
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: db_crud       # Nombre de la base de datos
+      POSTGRES_USER: lufedev     # Usuario de la base de datos
+      POSTGRES_PASSWORD: root    # Contraseña del usuario
+    volumes:
+      - ./postgres:/var/lib/postgresql/data  # Volumen para persistencia de datos
+    ports:
+      - "5433:5432"  # Puerto para conectarse a PostgreSQL
