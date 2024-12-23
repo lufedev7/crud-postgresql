@@ -7,9 +7,10 @@ import { Cat } from './entities/cat.entity';
 
 import { BreedsModule } from '../breeds/breeds.module';
 import { BreedsService } from '../breeds/breeds.service';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Cat]), BreedsModule],
+  imports: [TypeOrmModule.forFeature([Cat]), BreedsModule, AuthModule],
   controllers: [CatsController],
   providers: [CatsService, BreedsService],
 })
