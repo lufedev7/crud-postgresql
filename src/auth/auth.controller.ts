@@ -5,8 +5,8 @@ import { LoginDto } from './dto/login.dto';
 
 import { TypeRoles } from '../common/enums/rol.enum';
 import { Auth } from './decorators/auth.decorator';
-import { ActiveUser } from 'src/common/decorators/active-user.decorator';
-import { UserActiveInterface } from 'src/common/interface/user-active.interface';
+import { ActiveUser } from '../common/decorators/active-user.decorator';
+import { UserActiveInterface } from '../common/interface/user-active.interface';
 
 @Controller('auth')
 export class AuthController {
