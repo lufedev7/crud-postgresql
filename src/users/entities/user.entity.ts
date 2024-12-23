@@ -1,3 +1,4 @@
+import { TypeRoles } from '../../common/enums/rol.enum';
 import {
   Column,
   DeleteDateColumn,
@@ -12,9 +13,9 @@ export class User {
   name: string;
   @Column({ unique: true, nullable: false })
   email: string;
-  @Column({ nullable: false })
+  @Column({ nullable: false, select: false })
   password: string;
-  @Column({ default: 'admin' })
+  @Column({ type: 'enum', default: TypeRoles.USER, enum: TypeRoles })
   role: string;
   @DeleteDateColumn()
   deletedAt: Date;

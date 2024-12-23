@@ -1,11 +1,13 @@
 import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { BreedsService } from './breeds.service';
 import { CreateBreedDto } from './dto/create-breed.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { TypeRoles } from 'src/common/enums/rol.enum';
 
 @Controller('breeds')
 export class BreedsController {
   constructor(private readonly breedsService: BreedsService) {}
-
+  @Auth(TypeRoles.ADMIN)
   @Post()
   create(@Body() createBreedDto: CreateBreedDto) {
     return this.breedsService.create(createBreedDto);

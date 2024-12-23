@@ -15,8 +15,8 @@ export class UsersService {
     return this.userRepository.save(createUserDto);
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    return this.userRepository.find();
   }
 
   findOne(id: number) {
@@ -24,6 +24,12 @@ export class UsersService {
   }
   async findByEmail(email: string) {
     return this.userRepository.findOneBy({ email });
+  }
+  async findOneByEmailWithPassword(email: string) {
+    return this.userRepository.findOne({
+      where: { email },
+      select: ['id', 'name', 'email', 'password', 'role'],
+    });
   }
   /* update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
