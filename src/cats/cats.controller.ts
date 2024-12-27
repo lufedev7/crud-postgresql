@@ -14,6 +14,7 @@ import { Auth } from '../auth/decorators/auth.decorator';
 import { TypeRoles } from '../common/enums/rol.enum';
 import { ActiveUser } from '../common/decorators/active-user.decorator';
 import { UserActiveInterface } from 'src/common/interface/user-active.interface';
+
 @Auth(TypeRoles.USER)
 @Controller('cats')
 export class CatsController {
