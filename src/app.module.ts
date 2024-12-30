@@ -27,6 +27,8 @@ import { ConfigModule } from '@nestjs/config';
             ? { rejectUnauthorized: false }
             : null,
       },
+      logging: true, // Añade esto para ver las queries SQL
+      logger: 'advanced-console',
     }),
     CatsModule,
     BreedsModule,

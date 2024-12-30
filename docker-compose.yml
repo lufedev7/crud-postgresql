@@ -1,14 +1,48 @@
 version: "3.8"
 services:
   postgres:
-    image: postgres:15  # Cambia a la versión de PostgreSQL que prefieras
+    image: postgres:15
     container_name: postgres_db
     restart: always
     environment:
-      POSTGRES_DB: db_crud       # Nombre de la base de datos
-      POSTGRES_USER: lufedev     # Usuario de la base de datos
-      POSTGRES_PASSWORD: root    # Contraseña del usuario
+      POSTGRES_DB: db_crud
+      POSTGRES_USER: lufedev
+      POSTGRES_PASSWORD: root
     volumes:
-      - ./postgres:/var/lib/postgresql/data  # Volumen para persistencia de datos
+      - ./postgres:/var/lib/postgresql/data
     ports:
-      - "5433:5432"  # Puerto para conectarse a PostgreSQL
+      - "5433:5432"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lufedev -d db_crud"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nestjs-app:
+    build:
+      context: .
+    container_name: nestjs_app
+    restart: always
+    environment:
+      # Ajustando los nombres de las variables para que coincidan con tu app.module.ts
+      POSTGRES_HOST: postgres_db
+      POSTGRES_PORT: 5432
+      POSTGRES_USERNAME: lufedev
+      POSTGRES_PASSWORD: root
+      POSTGRES_DATABASE: db_crud
+      POSTGRES_SSL: "false"
+      JWT_SECRET: "passwordinproduction*"
+      NODE_ENV: development
+    ports:
+      - "3003:3003"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
